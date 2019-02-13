@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     super()
     this.state={
       todo:'',
+      id:'',
       editing:false
      
     }
@@ -60,7 +61,10 @@ const styles = StyleSheet.create({
 
   add=()=>{
     if(this.state.todo !== ''){
-    this.props.add(this.state.todo);
+    const todoObj={
+      todo:this.state.todo
+    }  
+    this.props.add(todoObj);
       this.setState({
         todo:''
       })
@@ -68,16 +72,18 @@ const styles = StyleSheet.create({
   }
   edit=(val,ind)=>{
     this.setState({
-      todo:val,
+      todo:val.todo,
       index:ind,
       editing:true
     })
   }
 
   update=()=>{
-    let val= this.state.todo;
+    let todoObj={
+      todo: this.state.todo
+    }
     let ind=this.state.index;
-    this.props.update({val,ind})
+    this.props.update({todoObj,ind})
     this.setState({
       todo:'',
       index:'',
@@ -119,7 +125,7 @@ const styles = StyleSheet.create({
           {this.props.todos.map((val, ind)=>
           <View key={ind} style={styles.tableRow}>
             <Text style={{flex:1, fontSize:20}}>{ind+1}.</Text>
-            <Text style={{flex:2, fontSize:20}}>{val}</Text>
+            <Text style={{flex:2, fontSize:20}}>{val.todo}</Text>
             <Button style={{flex:1}} title="Edit" onPress={()=>this.edit(val,ind)} color="#0072ff"/>
             <Button style={{flex:1}} title="Delete"onPress={()=>this.delete(ind)} color="#ff6363"/>
           </View>
@@ -132,13 +138,13 @@ const styles = StyleSheet.create({
 
  function mapStateToProps(state){
   return ({
-      todos: state.root.todos
+      todos:state.root.todos
   })
 }
 function mapDispatchToProps(dispatch){
   return ({
       getData:()=> dispatch(getData()),
-      add: (todo)=> dispatch(add(todo)),
+      add: (obj)=> dispatch(add(obj)),
       update:(obj)=> dispatch(update(obj)),
       delete:(ind)=> dispatch(deleteOne(ind)),
       deleteAll:()=>dispatch(deleteAll())

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import store from './src/store/index';
 import {Provider} from 'react-redux';
+import { StyleSheet, Text, View,Button,TextInput,ScrollView} from 'react-native';
 import Todo from './src/components/todo'
 // import * as firebase from 'firebase';
 
@@ -19,6 +20,7 @@ export default class App extends Component{
 render() {
     return (
         <Provider store={store}>
+            {/* <Text>adf</Text> */}
             <Todo/>
          </Provider>
     );
